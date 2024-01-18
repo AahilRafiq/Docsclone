@@ -17,15 +17,6 @@ async function getAllDocs(req, res) {
   }
 }
 
-//     let docs = await Doc.find({ ownerId: req.auth.userId });
-//     if (!Array.isArray(docs)) docs = [docs];
-//     res.status(200).json(docs);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: error.message });
-//   }
-// }
-
 // POST /api/docs/createdoc
 async function createDoc(req, res) {
   try {
@@ -115,40 +106,3 @@ export {
   deleteDocById,
 };
 
-/*
-{
-  actor: undefined,
-  sessionClaims: {
-    azp: 'http://localhost:3000',
-    exp: 1704898224,
-    iat: 1704898164,
-    iss: 'https://legal-kingfish-67.clerk.accounts.dev',
-    nbf: 1704898154,
-    sid: 'sess_2alVUfCNFA41xa4bx9gUIENsyE9',
-    sub: 'user_2ag6f4sEkQwq0yOOco3VI8RXRAO'
-  },
-  sessionId: 'sess_2alVUfCNFA41xa4bx9gUIENsyE9',
-  session: undefined,
-  userId: 'user_2ag6f4sEkQwq0yOOco3VI8RXRAO',
-  user: undefined,
-  orgId: undefined,
-  orgRole: undefined,
-  orgSlug: undefined,
-  orgPermissions: undefined,
-  organization: undefined,
-  getToken: [AsyncFunction (anonymous)],
-  has: [Function (anonymous)],
-  debug: [Function (anonymous)],
-  claims: {
-    azp: 'http://localhost:3000',
-    exp: 1704898224,
-    iat: 1704898164,
-    iss: 'https://legal-kingfish-67.clerk.accounts.dev',
-    nbf: 1704898154,
-    sid: 'sess_2alVUfCNFA41xa4bx9gUIENsyE9',
-    sub: 'user_2ag6f4sEkQwq0yOOco3VI8RXRAO'
-  }
-}
-
-
-*/
