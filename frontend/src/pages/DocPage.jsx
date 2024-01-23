@@ -76,7 +76,6 @@ export default function DocPage() {
 
   // SOCKET CONNECTION AND HANDLERS
   useEffect(() => {
-    if (!quillRef) return;
     socket.connect();
 
     socket.on("connect", () => onSocketConnect(socket, params, setIsConnected, setIsLoading));
@@ -89,12 +88,15 @@ export default function DocPage() {
       socket.off("disconnect", () => onSocketDisconnect(setIsConnected));
       socket.off("receive-changes", (delta) =>onSocketReceiveChanges(delta, quillRef, setValue));
     };
-  }, [quillRef , socket]);
+  }, [socket]);
 
 
   // EMIT CHANGES TO SOCKET
   useEffect(() => {
-    if (!quillRef) return;
+    if (!quillRef) {
+      alert("Error");
+      return;
+    }
     if (!isConnected) return;
 
     const quillEditor = quillRef.current.getEditor();
