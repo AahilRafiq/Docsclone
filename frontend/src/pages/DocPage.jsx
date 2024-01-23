@@ -76,10 +76,7 @@ export default function DocPage() {
 
   // SOCKET CONNECTION AND HANDLERS
   useEffect(() => {
-    if (params.docId === undefined) return;
-    if (!quillRef.current) return;
-    if (!socket) return;
-
+    if (!quillRef) return;
     socket.connect();
 
     socket.on("connect", () => onSocketConnect(socket, params, setIsConnected, setIsLoading));
@@ -87,19 +84,21 @@ export default function DocPage() {
     socket.on("receive-changes", (delta) => onSocketReceiveChanges(delta, quillRef, setValue));
 
     return () => {
+      socket.disconnect();
       socket.off("connect",onSocketConnect(socket, params, setIsConnected, setIsLoading));
       socket.off("disconnect", () => onSocketDisconnect(setIsConnected));
       socket.off("receive-changes", (delta) =>onSocketReceiveChanges(delta, quillRef, setValue));
     };
-  }, [socket, params.docId, quillRef]);
+  }, [quillRef , socket]);
 
 
   // EMIT CHANGES TO SOCKET
   useEffect(() => {
-    if (!quillRef.current) return;
+    if (!quillRef) return;
     if (!isConnected) return;
 
-    quillRef.current.getEditor().on("text-change", (delta, value, source) => {
+    const quillEditor = quillRef.current.getEditor();
+    quillEditor.on("text-change", (delta, value, source) => {
       if (source !== "user") return;
       socket.emit("send-changes", delta, params.docId);
       const newvalue = quillRef.current.getEditor().getContents();

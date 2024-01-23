@@ -33,25 +33,22 @@ app.use(
 );
 mongoose.connect(process.env.MONGO_URL , {dbName: 'DocsCloneDB'}).then(console.log('MongoDB Connnected!'));
 
-// app.get("/api/protected-endpoint", (req, res) => {
-//   console.log(req.auth);
-//   res.json({ message: "Hello from a protected endpoint! You must be signed in." });
-// });
-
 // Routes
 app.use('/api/docs', docRoutes);
 
-
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
   console.log('User connected Socket');
   socket.on('join-room' , roomId => {
     socket.join(roomId);
     console.log('User joined room: ' + roomId);
   })
   socket.on('send-changes' , (delta,roomId) => {
-    // console.log(delta);
     socket.broadcast.to(roomId).emit('receive-changes', delta);
   })
+})
+
+io.on("disconnect", (socket) => {
+  console.log('User disconnected Socket');
 })
 
 server.listen(process.env.PORT || 5000, () => {

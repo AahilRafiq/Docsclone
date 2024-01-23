@@ -1,9 +1,9 @@
 import { io } from 'socket.io-client';
 const URL = import.meta.env.VITE_BACKEND_API_ENDPOINT;
 
-export const socket = io(URL, {
+export const socket = io(URL , {
     autoConnect: false
-});
+})
 
 export function onSocketConnect(socket , params , setIsConnected , setIsLoading) {
     socket.emit("join-room", params.docId);
